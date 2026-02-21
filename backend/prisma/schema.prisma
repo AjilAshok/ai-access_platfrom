@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  password      String
+  role          String?   @default("user")
+  is_active     Boolean?  @default(true)
+  daily_limit   Int?      @default(10000)
+  created_at    DateTime? @default(now())
+  refresh_token String?
+
+  tokenUsage    TokenUsage[]
+
+  @@map("users")
+}
+
+model TokenUsage {
+  id            Int       @id @default(autoincrement())
+  user_id       Int
+  model         String?   @db.VarChar(100)
+  input_tokens  Int?
+  output_tokens Int?
+  total_tokens  Int?
+  created_at    DateTime? @default(now())
+
+  user          User      @relation(fields: [user_id], references: [id])
+
+  @@map("token_usage")
+}
