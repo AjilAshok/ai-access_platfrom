@@ -67,9 +67,7 @@ export default function Login() {
                             placeholder="Enter your password"
                             className="auth-input"
                         />
-                        <div className="auth-forgot">
-                            <button type="button" className="auth-forgot-btn">Forgot password?</button>
-                        </div>
+                      
                     </div>
 
                     <button type="submit" disabled={loading} className="auth-submit">
