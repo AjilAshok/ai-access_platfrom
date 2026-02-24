@@ -75,6 +75,11 @@ export default function AdminDashboard() {
     const activeCount = users.filter(u => u.is_active).length;
     const totalRequests = userStats.reduce((s, u) => s + (u.request_count || u.total_requests || 0), 0);
 
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayData = dailyData.find(d => d.date === todayStr) || { total_tokens: 0, total_requests: 0 };
+    const tokensToday = todayData.total_tokens;
+    const requestsToday = todayData.total_requests;
+
     const filteredUsers = users.filter(u =>
         u.email.toLowerCase().includes(search.toLowerCase())
     );
@@ -125,12 +130,12 @@ export default function AdminDashboard() {
                     </div>
                     <div style={s.statCard}>
                         <p style={s.statLabel}>Tokens Today</p>
-                        <p style={{ ...s.statValue, ...s.statAmber }}>{totalTokens >= 1000000 ? (totalTokens / 1000000).toFixed(1) + 'M' : totalTokens.toLocaleString()}</p>
+                        <p style={{ ...s.statValue, ...s.statAmber }}>{tokensToday >= 1000000 ? (tokensToday / 1000000).toFixed(1) + 'M' : tokensToday.toLocaleString()}</p>
                         <p style={s.statMeta}>Across all models</p>
                     </div>
                     <div style={s.statCard}>
                         <p style={s.statLabel}>Requests Today</p>
-                        <p style={s.statValue}>{totalRequests.toLocaleString()}</p>
+                        <p style={s.statValue}>{requestsToday.toLocaleString()}</p>
                         <p style={s.statMeta}>Across all models</p>
                     </div>
                 </div>

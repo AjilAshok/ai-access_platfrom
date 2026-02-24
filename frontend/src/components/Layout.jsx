@@ -32,7 +32,6 @@ export default function Layout({ children }) {
                                 to="/admin"
                                 className={({ isActive }) => isActive ? "text-white" : "text-white/60 hover:text-white"}
                             >
-                                Admin Overview
                             </NavLink>
                         </div>
                     )}

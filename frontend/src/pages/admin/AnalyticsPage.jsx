@@ -53,8 +53,8 @@ export default function AnalyticsPage() {
         Promise.all([
             getDailyAnalytics().then(({ data }) =>
                 setDaily(data.map((d) => ({
-                    date: new Date(d.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    tokens: d._sum?.total_tokens || 0,
+                    date: new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    tokens: d.total_tokens || 0,
                 })))
             ),
             getUserAnalytics().then(({ data }) =>

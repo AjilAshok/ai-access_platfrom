@@ -195,10 +195,18 @@ router.get(
       const grouped = {};
       for (const r of records) {
         const date = new Date(r.created_at).toISOString().slice(0, 10);
-        grouped[date] = (grouped[date] || 0) + (r.total_tokens || 0);
+        if (!grouped[date]) {
+          grouped[date] = { total_tokens: 0, total_requests: 0 };
+        }
+        grouped[date].total_tokens += (r.total_tokens || 0);
+        grouped[date].total_requests += 1;
       }
 
-      const result = Object.entries(grouped).map(([date, total_tokens]) => ({ date, total_tokens }));
+      const result = Object.entries(grouped).map(([date, stats]) => ({
+        date,
+        total_tokens: stats.total_tokens,
+        total_requests: stats.total_requests
+      }));
       res.json(result);
     } catch (error) {
       console.error(error);
